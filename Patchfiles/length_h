@@ -1,0 +1,19 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/length.h-rev217.svn000.tmp.h	Sa Mai 14 00:47:40 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/length.h-rev228.svn000.tmp.h	Mo Mai 16 23:12:52 2016
+@@ -846,6 +846,16 @@ typedef enum
+ 	SHOP_COIN_TYPE_SECONDARY_COIN,
+ } EShopCoinType;
+ 
++#ifdef CHANGE_SKILL_COLOR
++namespace ESkillColorLength {
++enum ESkillColorLengt
++{
++	MAX_SKILL_COUNT = 6,
++	MAX_EFFECT_COUNT = 5,
++};
++}
++#endif
++
+ #pragma pack(pop)
+ 
+ #endif

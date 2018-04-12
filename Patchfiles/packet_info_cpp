@@ -1,0 +1,11 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/packet_info.cpp-rev217.svn000.tmp.cpp	So Mai  1 19:31:52 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/packet_info.cpp-rev228.svn000.tmp.cpp	Mo Mai 16 22:42:07 2016
+@@ -184,7 +184,7 @@ CPacketInfoCG::CPacketInfoCG()
+ 	Set(HEADER_CG_FLY_TARGETING, sizeof(TPacketCGFlyTargeting), "FlyTarget", true);
+ 	Set(HEADER_CG_ADD_FLY_TARGETING, sizeof(TPacketCGFlyTargeting), "AddFlyTarget", true);
+ 	Set(HEADER_CG_SHOOT, sizeof(TPacketCGShoot), "Shoot", true);
+-
++	Set(HEADER_CG_SKILL_COLOR, sizeof(TPacketCGSkillColor), "ChangeSkillColor", true);
+ 	Set(HEADER_CG_USE_SKILL, sizeof(TPacketCGUseSkill), "UseSkill", true);
+ 
+ 	Set(HEADER_CG_ITEM_USE_TO_ITEM, sizeof(TPacketCGItemUseToItem), "UseItemToItem", true);

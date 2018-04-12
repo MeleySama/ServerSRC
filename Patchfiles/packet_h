@@ -1,0 +1,52 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/packet.h-rev217.svn001.tmp.h	So Mai  1 20:36:28 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/packet.h-rev228.svn001.tmp.h	Mo Mai 16 22:42:07 2016
+@@ -44,6 +44,10 @@ enum
+ 	HEADER_CG_SHOOT				= 54,
+ 	HEADER_CG_MYSHOP				= 55,
+ 
++#ifdef CHANGE_SKILL_COLOR
++	HEADER_CG_SKILL_COLOR						= 56,
++#endif
++	
+ 	HEADER_CG_ITEM_USE_TO_ITEM			= 60,
+ 	HEADER_CG_TARGET			 	= 61,
+ 
+@@ -997,6 +1001,9 @@ typedef struct packet_char_additional_info
+ 	short	sAlignment;
+ 	BYTE	bPKMode;
+ 	DWORD	dwMountVnum;
++#ifdef CHANGE_SKILL_COLOR
++	DWORD	dwSkillColor[ESkillColorLength::MAX_SKILL_COUNT][ESkillColorLength::MAX_EFFECT_COUNT];
++#endif
+ } TPacketGCCharacterAdditionalInfo;
+ 
+ /*
+@@ -1037,6 +1044,9 @@ typedef struct packet_update_char
+ 	BYTE	bPKMode;
+ 	DWORD	dwMountVnum;
+ 	//WORD	wRaceNum;
++#ifdef CHANGE_SKILL_COLOR
++	DWORD	dwSkillColor[ESkillColorLength::MAX_SKILL_COUNT][ESkillColorLength::MAX_EFFECT_COUNT];
++#endif
+ } TPacketGCCharacterUpdate;
+ 
+ typedef struct packet_del_char
+@@ -2429,5 +2439,18 @@ typedef struct SPacketGCStateCheck
+ 	unsigned char state;
+ } TPacketGCStateCheck;
+ 
++#ifdef CHANGE_SKILL_COLOR
++typedef struct packet_skill_color
++{
++	BYTE		bheader;
++	BYTE		skill;
++	DWORD		col1;
++	DWORD		col2;
++	DWORD		col3;
++	DWORD		col4;
++	DWORD		col5;
++}TPacketCGSkillColor;
++#endif
++
+ #pragma pack()
+ #endif

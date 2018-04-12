@@ -1,0 +1,58 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/item_manager.cpp-rev217.svn000.tmp.cpp	So Apr  3 15:37:22 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/item_manager.cpp-rev228.svn000.tmp.cpp	Mo Mai 23 20:40:55 2016
+@@ -241,6 +241,55 @@ LPITEM ITEM_MANAGER::CreateItem(DWORD vnum, DWORD
+ 			break;
+ 	}
+ 
++#ifdef _ENABLE_SASH_FIX_
++	switch (item->GetSubType())
++	{
++		case COSTUME_ACCE:
++			switch (item->GetVnum())
++			{
++				DWORD dwAbsChance;
++
++				case SASH_INDEX_01: 
++				case SASH_INDEX_02:
++			#ifdef _ENABLE_NEW_SASH_
++				case SASH_NEW_01:
++				case SASH_NEW_02:
++			#endif				
++					item->SetSocket(1, 1);
++					break;
++				case SASH_INDEX_05:
++				case SASH_INDEX_06:
++			#ifdef _ENABLE_NEW_SASH_				
++				case SASH_NEW_03:
++				case SASH_NEW_04:
++			#endif				
++					item->SetSocket(1, 5);
++					break;
++				case SASH_INDEX_03:
++				case SASH_INDEX_04:
++			#ifdef _ENABLE_NEW_SASH_				
++				case SASH_NEW_05:
++				case SASH_NEW_06:
++			#endif				
++					item->SetSocket(1, 10);
++					break;
++				case SASH_INDEX_07:
++				case SASH_INDEX_08:
++					dwAbsChance = number(11, 20); // Abs maxim 20
++					item->SetSocket(1, dwAbsChance);
++					break;
++			#ifdef _ENABLE_NEW_SASH_
++				case SASH_NEW_07:
++				case SASH_NEW_08:
++			#endif				
++					dwAbsChance = number(11, 20); // Abs maxim 20
++					item->SetSocket(1, dwAbsChance);
++					break;
++			}
++			break;
++	}
++#endif
++
+ 	if (item->GetType() == ITEM_ELK) // 돈은 아무 처리가 필요하지 않음
+ 		;
+ 	else if (item->IsStackable())  // 합칠 수 있는 아이템의 경우

@@ -1,0 +1,48 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/char.cpp-rev217.svn000.tmp.cpp	So Mai  1 19:31:52 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/char.cpp-rev228.svn000.tmp.cpp	Di Mai 24 19:48:45 2016
+@@ -457,6 +457,9 @@ void CHARACTER::Initialize()
+ 	dw_Enchant2Attr = 5555;
+ 	dw_Enchant2Slot = 5555;
+ #endif
++#ifdef CHANGE_SKILL_COLOR
++	memset(&m_dwSkillColor, 0, sizeof(m_dwSkillColor));
++#endif
+ }
+ 
+ void CHARACTER::Create(const char * c_pszName, DWORD vid, bool isPC)
+@@ -982,6 +985,11 @@ void CHARACTER::EncodeInsertPacket(LPENTITY entity
+ 		addPacket.awPart[CHR_EQUIPPART_HEAD] = GetPart(PART_HEAD);
+ 		addPacket.awPart[CHR_EQUIPPART_HAIR] = GetPart(PART_HAIR);
+ 		addPacket.awPart[CHR_EQUIPPART_ACCE] = GetPart(PART_ACCE);
++		
++#ifdef CHANGE_SKILL_COLOR
++		memcpy(addPacket.dwSkillColor, GetSkillColor(), sizeof(addPacket.dwSkillColor));
++#endif
++		sys_log(0, "fabi  %i  %i  %i  %i", addPacket.dwSkillColor[0][0], addPacket.dwSkillColor[1][1],addPacket.dwSkillColor[2][2],addPacket.dwSkillColor[3][3]);
+ #ifdef __NEW_ARROW_SYSTEM__
+ 		addPacket.awPart[CHR_PART_ARROW_TYPE] = GetPart(PART_ARROW_TYPE);
+ #endif
+@@ -1143,7 +1151,7 @@ void CHARACTER::UpdatePacket()
+ 	pack.dwLevel = GetLevel();
+ #endif
+ 	pack.bPKMode	= m_bPKMode;
+-
++	memcpy(pack.dwSkillColor, GetSkillColor(), sizeof(pack.dwSkillColor));
+ 	if (GetGuild())
+ 		pack.dwGuildID = GetGuild()->GetID();
+ 
+@@ -3032,6 +3040,14 @@ void CHARACTER::SendMovePacket(BYTE bFunc, BYTE bA
+ 	PacketView(&pack, sizeof(TPacketGCMove), this);
+ }
+ 
++#ifdef CHANGE_SKILL_COLOR
++void CHARACTER::SetSkillColor(DWORD * dwSkillColor)
++{
++	memcpy(m_dwSkillColor, dwSkillColor, sizeof(m_dwSkillColor));
++	UpdatePacket();
++}
++#endif
++
+ int CHARACTER::GetRealPoint(BYTE type) const
+ {
+ 	return m_points.points[type];

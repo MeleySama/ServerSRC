@@ -1,0 +1,24 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/input.h-rev217.svn000.tmp.h	So Mai  1 19:31:52 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/input.h-rev228.svn000.tmp.h	Mo Mai 16 22:42:07 2016
+@@ -127,7 +127,9 @@ class CInputMain : public CInputProcessor
+ 		int			SyncPosition(LPCHARACTER ch, const char * data, size_t uiBytes);
+ 		void		FlyTarget(LPCHARACTER ch, const char * pcData, BYTE bHeader);
+ 		void		UseSkill(LPCHARACTER ch, const char * pcData);
+-
++#ifdef CHANGE_SKILL_COLOR
++		void		SetSkillColor(LPCHARACTER ch, const char * pcData);
++#endif
+ 		void		ScriptAnswer(LPCHARACTER ch, const void * pvData);
+ 		void		ScriptButton(LPCHARACTER ch, const void * pvData);
+ 		void		ScriptSelectItem(LPCHARACTER ch, const void * pvData);
+@@ -198,7 +200,9 @@ class CInputDB : public CInputProcessor
+ 	void		P2P(const char * c_pData);
+ 	void		ItemLoad(LPDESC d, const char * c_pData);
+ 	void		AffectLoad(LPDESC d, const char * c_pData);
+-
++#ifdef CHANGE_SKILL_COLOR
++	void		SkillColorLoad(LPDESC d, const char * c_pData);
++#endif
+ 	void		GuildLoad(const char * c_pData);
+ 	void		GuildSkillUpdate(const char* c_pData);
+ 	void		GuildSkillRecharge();

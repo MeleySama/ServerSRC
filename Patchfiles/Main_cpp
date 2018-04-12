@@ -1,0 +1,11 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/Main.cpp-rev217.svn000.tmp.cpp	Mo Jul 13 04:41:52 2015
++++ C:/Users/TORCHL~1/AppData/Local/Temp/Main.cpp-rev228.svn000.tmp.cpp	Mo Mai 16 22:42:07 2016
+@@ -33,7 +33,7 @@ BOOL g_test_server = false;
+ //단위 초
+ int g_iPlayerCacheFlushSeconds = 60*7;
+ int g_iItemCacheFlushSeconds = 60*5;
+-
++int g_iSkillColorCacheFlushSeconds = 60 * 7;
+ //g_iLogoutSeconds 수치는 g_iPlayerCacheFlushSeconds 와 g_iItemCacheFlushSeconds 보다 길어야 한다.
+ int g_iLogoutSeconds = 60*10;
+ 

@@ -1,0 +1,34 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/input_db.cpp-rev217.svn000.tmp.cpp	Mi Mrz  9 19:37:18 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/input_db.cpp-rev228.svn000.tmp.cpp	Mo Mai 16 22:42:07 2016
+@@ -1514,7 +1514,18 @@ void CInputDB::GuildLadder(const char* c_pData)
+ 	g->SetLadderPoint(p->lLadderPoint);
+ 	g->SetWarData(p->lWin, p->lDraw, p->lLoss);
+ }
++#ifdef CHANGE_SKILL_COLOR
++void CInputDB::SkillColorLoad(LPDESC d, const char * c_pData)
++{
++	LPCHARACTER ch;
+ 
++	if (!d || !(ch = d->GetCharacter()))
++		return;
++
++	ch->SetSkillColor((DWORD*)c_pData);
++}
++#endif
++
+ void CInputDB::ItemLoad(LPDESC d, const char * c_pData)
+ {
+ 	LPCHARACTER ch;
+@@ -2230,7 +2241,11 @@ int CInputDB::Analyze(LPDESC d, BYTE bHeader, cons
+ 	case HEADER_DG_ITEM_LOAD:
+ 		ItemLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
+ 		break;
+-
++#ifdef CHANGE_SKILL_COLOR
++	case HEADER_DG_SKILL_COLOR_LOAD:
++		SkillColorLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
++		break;
++#endif
+ 	case HEADER_DG_QUEST_LOAD:
+ 		QuestLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
+ 		break;

@@ -1,0 +1,77 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/Cache.cpp-rev217.svn000.tmp.cpp	Mo Feb 22 20:10:45 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/Cache.cpp-rev228.svn000.tmp.cpp	Mo Mai 16 22:42:07 2016
+@@ -13,6 +13,9 @@ extern CPacketInfo g_item_info;
+ extern int g_iPlayerCacheFlushSeconds;
+ extern int g_iItemCacheFlushSeconds;
+ extern int g_test_server;
++#ifdef CHANGE_SKILL_COLOR
++extern int g_iSkillColorCacheFlushSeconds;
++#endif
+ // MYSHOP_PRICE_LIST
+ extern int g_iItemPriceListTableCacheFlushSeconds;
+ // END_OF_MYSHOP_PRICE_LIST
+@@ -20,6 +23,64 @@ extern int g_iItemPriceListTableCacheFlushSeconds;
+ extern int g_item_count;
+ const int auctionMinFlushSec = 1800;
+ 
++#ifdef CHANGE_SKILL_COLOR
++CSKillColorCache::CSKillColorCache()
++{
++	m_expireTime = MIN(1800, g_iSkillColorCacheFlushSeconds);
++}
++CSKillColorCache::~CSKillColorCache()
++{
++
++}
++
++void CSKillColorCache::OnFlush()
++{
++	bool bIsSetNULL = true;
++	for (int i = 0; i < ESkillColorLength::MAX_SKILL_COUNT; ++i) {
++		for (int x = 0; x < ESkillColorLength::MAX_EFFECT_COUNT; ++x) {
++			if (m_data.dwSkillColor[i][x] > 0)
++			{
++				bIsSetNULL = false;
++				break;
++			}
++		}
++	}
++	if (bIsSetNULL)
++	{
++		char szQuery[512];
++		snprintf(szQuery, sizeof(szQuery), "DELETE FROM skill_color%s WHERE player_id=%u", GetTablePostfix(), m_data.player_id);
++		CDBManager::instance().ReturnQuery(szQuery, QID_SKILL_COLOR_SAVE, 0, NULL);
++
++		if (g_test_server)
++			sys_log(0, "SkillColorCache::Flush : DELETE %u %s", m_data.player_id, szQuery);
++	}
++	else
++	{
++		char query[512];
++		snprintf(query, sizeof(query),
++			"REPLACE INTO skill_color%s (player_id, s1_col1, s1_col2, s1_col3, s1_col4, s1_col5, "
++			"s2_col1, s2_col2, s2_col3, s2_col4, s2_col5,s3_col1, s3_col2, s3_col3, s3_col4, s3_col5, "
++			"s4_col1, s4_col2, s4_col3, s4_col4, s4_col5,s5_col1, s5_col2, s5_col3, s5_col4, s5_col5, "
++			"s6_col1, s6_col2, s6_col3, s6_col4, s6_col5) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, "
++			"%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d)", GetTablePostfix(),
++			m_data.player_id, m_data.dwSkillColor[0][0], m_data.dwSkillColor[0][1], m_data.dwSkillColor[0][2], m_data.dwSkillColor[0][3], m_data.dwSkillColor[0][4],
++			m_data.dwSkillColor[1][0], m_data.dwSkillColor[1][1], m_data.dwSkillColor[1][2], m_data.dwSkillColor[1][3], m_data.dwSkillColor[1][4],
++			m_data.dwSkillColor[2][0], m_data.dwSkillColor[2][1], m_data.dwSkillColor[2][2], m_data.dwSkillColor[2][3], m_data.dwSkillColor[2][4],
++			m_data.dwSkillColor[3][0], m_data.dwSkillColor[3][1], m_data.dwSkillColor[3][2], m_data.dwSkillColor[3][3], m_data.dwSkillColor[3][4],
++			m_data.dwSkillColor[4][0], m_data.dwSkillColor[4][1], m_data.dwSkillColor[4][2], m_data.dwSkillColor[4][3], m_data.dwSkillColor[4][4],
++			m_data.dwSkillColor[5][0], m_data.dwSkillColor[5][1], m_data.dwSkillColor[5][2], m_data.dwSkillColor[5][3], m_data.dwSkillColor[5][4]);
++
++		CDBManager::instance().ReturnQuery(query, QID_SKILL_COLOR_SAVE, 0, NULL);
++
++		if (g_test_server)
++			sys_log(0, "SkillColorCache::Flush :REPLACE %u (%s)", m_data.player_id, query);
++
++	}
++	m_bNeedQuery = false;
++}
++
++#endif
++
+ CItemCache::CItemCache()
+ {
+ 	m_expireTime = MIN(1800, g_iItemCacheFlushSeconds);

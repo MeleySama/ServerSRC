@@ -1,0 +1,19 @@
+--- C:/Users/TORCHL~1/AppData/Local/Temp/char.h-rev217.svn000.tmp.h	Sa Mai 14 00:47:40 2016
++++ C:/Users/TORCHL~1/AppData/Local/Temp/char.h-rev228.svn000.tmp.h	Mo Mai 16 22:42:07 2016
+@@ -1233,8 +1233,16 @@ class CHARACTER : public CEntity, public CFSM, pub
+ 		int				m_iRefineAdditionalCell;
+ 		bool			m_bUnderRefine;
+ 		DWORD			m_dwRefineNPCVID;
++		
+ 
+ 	public:
++#ifdef CHANGE_SKILL_COLOR
++		void			SetSkillColor(DWORD * dwSkillColor);
++		DWORD*			GetSkillColor() { return m_dwSkillColor[0]; }
++	protected:
++		DWORD			m_dwSkillColor[ESkillColorLength::MAX_SKILL_COUNT][ESkillColorLength::MAX_EFFECT_COUNT];
++	public:
++#endif
+ 		////////////////////////////////////////////////////////////////////////////////////////
+ 		// Money related
+ 		INT				GetGold() const		{ return m_points.gold;	}
